@@ -1,5 +1,6 @@
 package org.microprofile.microservice;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -11,9 +12,12 @@ public class JaxRsActivator extends Application {
 
 	@Override
 	public Set<Class<?>> getClasses() {
-		super.getClasses().add(ServiceEndpoint.class);
+		
+		Set<Class<?>> classes=new HashSet<Class<?>>();
+		
+		classes.add(ServiceEndpoint.class);
 		initialize();
-		return super.getClasses();
+		return classes;
 	}
 	
 	@PostConstruct
