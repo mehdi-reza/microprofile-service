@@ -8,10 +8,11 @@ import javax.ws.rs.core.Application;
 
 @ApplicationPath("/")
 public class JaxRsActivator extends Application {
-	
+
 	@Override
 	public Set<Class<?>> getClasses() {
-		super.getClasses().add(AbstractMicroService.class);
+		super.getClasses().add(ServiceEndpoint.class);
+		initialize();
 		return super.getClasses();
 	}
 	
