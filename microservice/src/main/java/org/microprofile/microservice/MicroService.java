@@ -1,8 +1,9 @@
 package org.microprofile.microservice;
 
-public interface MicroService<T> {
+public interface MicroService<REQUEST, RESPONSE> {
 	
-	public T service(RequestContext context);
-	public Class<T> getResponseType();
+	public RESPONSE service(RequestContext context);
+	public Class<REQUEST> getRequestType();
+	public Class<RESPONSE> getResponseType();
 	
 }
