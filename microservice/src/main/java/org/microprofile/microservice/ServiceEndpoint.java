@@ -2,6 +2,7 @@ package org.microprofile.microservice;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -23,7 +24,28 @@ public class ServiceEndpoint {
 	
 	Logger logger=LoggerFactory.getLogger(ServiceEndpoint.class);
 			
-	@Inject MicroService<?, ?> service;
+	private MicroService<?,?> service;
+	
+	@Inject
+	Event<OnStart> startEvent;
+	
+	@Inject 
+	protected void setService(MicroService<?, ?>  service) {
+		this.service=service;
+		
+		final ServiceDescriptor descriptor = service.getClass().getAnnotation(ServiceDescriptor.class);
+		Objects.requireNonNull(descriptor, "ServiceDescriptor is not defined on service..");
+		
+		startEvent.fire(new OnStart() {
+			public String getServiceName() {
+				return descriptor.name();
+			}
+			public URL getURL() throws MalformedURLException {
+				return new URL(descriptor.url());
+			}
+		});
+	}
+	
 	@GET
 	public void get() {
 		service.service(new RequestContext());
@@ -37,22 +59,5 @@ public class ServiceEndpoint {
 	@PUT
 	public void put() {
 		
-	}
-	
-	@Inject
-	Event<OnStart> startEvent;
-
-	@PostConstruct
-	public void initialize() {
-		final ServiceDescriptor descriptor = service.getClass().getAnnotation(ServiceDescriptor.class);
-		System.out.println(service.getClass().getName());
-		startEvent.fire(new OnStart() {
-			public String getServiceName() {
-				return descriptor.name();
-			}
-			public URL getURL() throws MalformedURLException {
-				return new URL(descriptor.url());
-			}
-		});
 	}
 }
