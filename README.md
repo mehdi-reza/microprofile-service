@@ -22,6 +22,6 @@ The zookeeper should already have a zNode /services with acl world:anyone:cdrwa
 
 Orchestration is to be introduced by the means where microservice provider will provide information about next service call (in service method) using RequestContext.next(serviceName). It will be the responsibility for the orchestrator to co-ordinate service invocations between multiple services and also fire compensatation events to microservices in case of failures.
 
-Any microservice can become orchestrator if it is the first participant in multiple services.
+Any microservice can become orchestrator if it is the first participant in multiple service invocations.
 
 A lot of other features can also be added like open tracing, security etc.
