@@ -4,7 +4,7 @@ The objective is to make writing microservices easy by doing the heavy lifting o
 
 Steps
 
-- Create a maven project (war) with org.microprofile:microservice dependency
+- Create your microservice "microservice-a" as a maven project (war) with org.microprofile:microservice dependency
 - Write your service class which implements org.microprofile.microservice.Microservice
 - Annotate it with service descriptor @ServiceDescriptor
 - Make sure beans.xml is present in WEB-INF folder
@@ -17,6 +17,12 @@ Steps
 The above is to register your microservice in zookeeper with its URL, this URl can be reversed proxy by a webserver (load balanced among multiple instances)
 
 The zookeeper should already have a zNode /services with acl world:anyone:cdrwa
+
+Run with payara micro as following:
+
+java -jar payara-micro-5.183.jar microservice-a.war
+
+curl -s http://localhost:8080/microservice-a/service
 
 ## Orchestration
 
