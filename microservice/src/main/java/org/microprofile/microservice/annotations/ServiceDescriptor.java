@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.FIELD})
 public @interface ServiceDescriptor {
-	String name();
-	String url();
+	String name() default "";
+	String url() default "";
 }

@@ -25,7 +25,6 @@ public class Producers {
 	Event<WatchedEvent> zookeeperEvent;
 
 	@Produces
-	@Dependent
 	ZooKeeper zookeper(@ConfigProperty(name = "zookeeper.connect.string") String connectString,
 			@ConfigProperty(name = "zookeeper.connect.timeout") int connectTimeout) {
 		try {
