@@ -1,5 +1,8 @@
 package org.microprofile.microservice.executor;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -46,10 +49,26 @@ public class ServiceExecutor {
 		if(Objects.nonNull(context.getNext())) {
 			// call next service		
 		}
-
-		jsonb.toJson(context, System.out);
+		
+		trace(context);
+		
 		logger.info("Next service to be called {}", context.getNext());
 		
 		return context;
+	}
+	
+	private void trace(Object context) {
+		ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+		try {
+			jsonb.toJson(context, outputStream);
+			logger.info(outputStream.toString());
+		} finally {
+			try {
+				outputStream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
