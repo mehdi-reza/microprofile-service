@@ -1,4 +1,4 @@
-package org.microprofile.microservice;
+package org.microprofile.microservice.context;
 
 public class RequestContext {
 	

@@ -14,6 +14,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
 import org.microprofile.microservice.annotations.ServiceDescriptor;
+import org.microprofile.microservice.context.RequestContext;
 import org.microprofile.microservice.events.OnStart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
