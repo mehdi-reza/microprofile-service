@@ -1,10 +1,10 @@
 ## microprofile-service
 
-The objective is to make writing microservices easy by pulling all JaxRS hastles away and also introduce orchestration which can be defined by the microservices developer.
+The objective is to make writing microservices easy by doing the heavy lifting of CDI and JaxRS and handle orchestration which can be defined by the microservices developer through code.
 
 Steps
 
-- Create a maven project with org.microprofile:microservice dependency
+- Create a maven project (war) with org.microprofile:microservice dependency
 - Write your service class which implements org.microprofile.microservice.Microservice
 - Annotate it with service descriptor @ServiceDescriptor
 - Make sure beans.xml is present in WEB-INF folder
