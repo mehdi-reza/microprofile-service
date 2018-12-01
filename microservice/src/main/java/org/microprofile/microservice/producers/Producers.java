@@ -9,6 +9,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
+import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -49,5 +50,12 @@ public class Producers {
 	JsonBuilderFactory jsonBuilderFactory() {
 		Map<String, Object> config=new HashMap<String, Object>();
 		return Json.createBuilderFactory(config);
+	}
+	
+	@Produces
+	JsonReaderFactory jsonReaderFactory() {
+		Map<String, Object> config=new HashMap<String, Object>();
+		return Json.createReaderFactory(config);
+		
 	}
 }

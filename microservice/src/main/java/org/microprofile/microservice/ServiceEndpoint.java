@@ -10,11 +10,14 @@ import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.New;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.microprofile.microservice.annotations.ServiceDescriptor;
 import org.microprofile.microservice.context.RequestContext;
@@ -53,22 +56,30 @@ public class ServiceEndpoint {
 	Instance<ServiceExecutor> instance;
 	
 	@GET
-	public void get(Object payload) {
-		instance.get().execute(payload);
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public RequestContext get(RequestContext payload) {
+		return instance.get().execute(payload);
 	}
 
 	@POST
-	public void post(Object payload) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void post(RequestContext payload) {
 		instance.get().execute(payload);
 	}
 	
 	@PUT
-	public void put(Object payload) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void put(RequestContext payload) {
 		instance.get().execute(payload);
 	}
 	
 	@DELETE
-	public void delete(Object payload) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void delete(RequestContext payload) {
 		instance.get().execute(payload);
 	}
 }
