@@ -14,10 +14,11 @@ Steps
 
 `zookeeper.connect.timeout=3000`
 
-
 The above is to register your microservice in zookeeper with its URL, this URl can be reversed proxy by a webserver (load balanced among multiple instances)
 
-#Orchestration#
+The zookeeper should already have a zNode /services with acl world:anyone:cdrwa
+
+# Orchestration #
 
 Orchestration is to be introduced by the means where microservice provider will provide information about next service call (in service method) using RequestContext.next(serviceName). It will be the responsibility for the orchestrator to co-ordinate service invocations between multiple services and also fire compensatation events to microservices in case of failures.
 
