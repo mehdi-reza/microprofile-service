@@ -10,6 +10,7 @@ import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.New;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -58,28 +59,28 @@ public class ServiceEndpoint {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RequestContext get(RequestContext payload) {
+	public RequestContext get(JsonObject payload) {
 		return instance.get().execute(payload);
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void post(RequestContext payload) {
+	public void post(JsonObject payload) {
 		instance.get().execute(payload);
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void put(RequestContext payload) {
+	public void put(JsonObject payload) {
 		instance.get().execute(payload);
 	}
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(RequestContext payload) {
+	public void delete(JsonObject payload) {
 		instance.get().execute(payload);
 	}
 }
