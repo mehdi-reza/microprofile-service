@@ -33,8 +33,9 @@ public class ServiceExecutor {
 		
 		String serviceName = service.getClass().getAnnotation(ServiceDescriptor.class).name();
 		RequestContext context=null;
-		
-		if(Objects.nonNull(payload) && Objects.nonNull(payload.get("orchestrator"))) { // can be null if a get request
+
+		// can be null if a get request
+		if(Objects.nonNull(payload) && Objects.nonNull(payload.get("orchestrator"))) { 
 			context = jsonb.fromJson(payload.toString(), RequestContext.class);
 		}
 
@@ -53,25 +54,9 @@ public class ServiceExecutor {
 			// call next service		
 		}
 		
-		trace(context);
 		
 		logger.info("Next service to call - {}", context.getNext());
 		
 		return context;
-	}
-	
-	private void trace(Object context) {
-		ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-		try {
-			jsonb.toJson(context, outputStream);
-			logger.info(outputStream.toString());
-		} finally {
-			try {
-				outputStream.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 }

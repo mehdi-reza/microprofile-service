@@ -59,28 +59,28 @@ public class ServiceEndpoint {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RequestContext get(JsonObject payload) {
-		return instance.get().execute(payload);
+	public RequestContext get() {
+		return instance.get().execute(null);
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void post(JsonObject payload) {
-		instance.get().execute(payload);
+	public RequestContext post(JsonObject payload) {
+		return instance.get().execute(payload);
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void put(JsonObject payload) {
-		instance.get().execute(payload);
+	public RequestContext put(JsonObject payload) {
+		return instance.get().execute(payload);
 	}
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(JsonObject payload) {
-		instance.get().execute(payload);
+	public RequestContext delete(JsonObject payload) {
+		return instance.get().execute(payload);
 	}
 }

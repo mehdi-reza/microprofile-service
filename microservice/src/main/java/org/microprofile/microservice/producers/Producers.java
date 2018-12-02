@@ -13,6 +13,7 @@ import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
 import javax.json.bind.spi.JsonbProvider;
 
 import org.apache.zookeeper.WatchedEvent;
@@ -43,7 +44,7 @@ public class Producers {
 	
 	@Produces
 	Jsonb jsonb() {		
-		return JsonbProvider.provider().create().build();
+		return JsonbBuilder.create(new JsonbConfig());
 	}
 	
 	@Produces
@@ -55,7 +56,6 @@ public class Producers {
 	@Produces
 	JsonReaderFactory jsonReaderFactory() {
 		Map<String, Object> config=new HashMap<String, Object>();
-		return Json.createReaderFactory(config);
-		
+		return Json.createReaderFactory(config);		
 	}
 }
