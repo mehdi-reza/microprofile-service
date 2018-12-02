@@ -18,6 +18,9 @@ The above is to register your microservice in zookeeper with its URL, this URl c
 
 The zookeeper should already have a zNode /services with acl world:anyone:cdrwa
 
+Check the sample microservice https://github.com/mehdi-reza/microservice-a
+
+### Run
 Run with payara micro as following:
 
 java -jar payara-micro-5.183.jar microservice-a.war
