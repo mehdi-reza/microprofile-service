@@ -14,7 +14,6 @@ import javax.ws.rs.core.Context;
 import org.microprofile.microservice.MicroService;
 import org.microprofile.microservice.annotations.ServiceDescriptor;
 import org.microprofile.microservice.context.RequestContext;
-import org.microprofile.microservice.context.ServiceResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
