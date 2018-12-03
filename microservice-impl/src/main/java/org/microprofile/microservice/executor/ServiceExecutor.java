@@ -1,5 +1,7 @@
 package org.microprofile.microservice.executor;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -13,24 +15,28 @@ import org.microprofile.microservice.MicroService;
 import org.microprofile.microservice.annotations.ServiceDescriptor;
 import org.microprofile.microservice.context.RequestContext;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ServiceExecutor {
 
 	@Inject
-	private MicroService service;
-
-	private Logger logger=LoggerFactory.getLogger(ServiceExecutor.class);
+	private Logger logger;
 	
 	@Inject JsonReaderFactory readerFactory;
 	@Inject Jsonb jsonb;
 	
 	@Context HttpServletRequest request;
-	
-	public RequestContext execute(JsonObject payload) {
+
+	private MicroService<?, ?> service;
+
+	public void setService(MicroService<?,?> service) {
+		this.service=service;
+	}
+
+	public RequestContext<?> execute(JsonObject payload) {
 		
 		String serviceName = service.getClass().getAnnotation(ServiceDescriptor.class).name();
-		RequestContext context=null;
+		
+		RequestContext<?> context=null;
 
 		// can be null if a get request
 		if(Objects.nonNull(payload) && Objects.nonNull(payload.get("orchestrator"))) { 
@@ -39,8 +45,8 @@ public class ServiceExecutor {
 
 		// make this service as orchestrator
 		if(Objects.isNull(context)) {
-			context=new RequestContext(serviceName);
-			context.setPayload(payload);
+			context=new RequestContext<>(serviceName);
+			context.setPayload(jsonb.fromJson(payload.toString(), service.getRequestType()));
 		}
 
 		Object response = service.service(context);

@@ -6,7 +6,7 @@ import java.util.List;
 import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbTransient;
 
-public final class RequestContext {
+public final class RequestContext<REQUEST> {
 
 	/**
 	 * Provide name of next service to be called
@@ -21,7 +21,7 @@ public final class RequestContext {
 	private int call = -1;
 	
 	@JsonbTransient
-	private JsonObject payload;
+	private REQUEST payload;
 	
 	private boolean hasNext = false;
 	
@@ -66,11 +66,11 @@ public final class RequestContext {
 		this.orchestrator = orchestrator;
 	}
 	
-	public JsonObject getPayload() {
+	public REQUEST getPayload() {
 		return payload;
 	}
 	
-	public void setPayload(JsonObject payload) {
+	public void setPayload(REQUEST payload) {
 		this.payload = payload;
 	}
 	

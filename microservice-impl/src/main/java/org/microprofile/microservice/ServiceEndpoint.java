@@ -1,14 +1,15 @@
 package org.microprofile.microservice;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Objects;
+import java.io.Serializable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
-import javax.enterprise.inject.Any;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.New;
+import javax.enterprise.inject.spi.ProcessBean;
+import javax.enterprise.inject.spi.ProcessManagedBean;
+import javax.enterprise.inject.spi.ProcessSyntheticBean;
+import javax.enterprise.inject.spi.WithAnnotations;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
@@ -25,18 +26,18 @@ import org.microprofile.microservice.context.RequestContext;
 import org.microprofile.microservice.events.OnStart;
 import org.microprofile.microservice.executor.ServiceExecutor;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Path("/service")
 @ApplicationScoped
 public class ServiceEndpoint {
 	
-	Logger logger=LoggerFactory.getLogger(ServiceEndpoint.class);
-			
 	@Inject
-	Event<OnStart> startEvent;
+	private Logger logger;
+			
+	/*@Inject
+	Event<OnStart> startEvent;*/
 	
-	@Inject 
+	/*@Inject 
 	protected void setService(MicroService service) {
 		
 		final ServiceDescriptor descriptor = service.getClass().getAnnotation(ServiceDescriptor.class);
@@ -50,7 +51,12 @@ public class ServiceEndpoint {
 				return new URL(descriptor.url());
 			}
 		});
-	}
+	}*/
+	
+	/*public void startup(@Observes @ServiceDescriptor ProcessBean<MicroService<?  extends Serializable,?  extends Serializable>> bean) {
+		logger.info("ProcessManagedBean {}", bean);
+		Thread.dumpStack();
+	}*/
 	
 
 	@Inject
@@ -59,28 +65,28 @@ public class ServiceEndpoint {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RequestContext get() {
+	public RequestContext<?> get() {
 		return instance.get().execute(null);
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RequestContext post(JsonObject payload) {
+	public RequestContext<?> post(JsonObject payload) {
 		return instance.get().execute(payload);
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RequestContext put(JsonObject payload) {
+	public RequestContext<?> put(JsonObject payload) {
 		return instance.get().execute(payload);
 	}
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RequestContext delete(JsonObject payload) {
+	public RequestContext<?> delete(JsonObject payload) {
 		return instance.get().execute(payload);
 	}
 }
