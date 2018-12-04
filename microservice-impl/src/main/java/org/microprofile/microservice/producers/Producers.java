@@ -47,7 +47,7 @@ public class Producers {
 	
 	@Produces
 	Logger logger(InjectionPoint ip) {
-		return LoggerFactory.getLogger(ip.getMember().getClass().getName());
+		return LoggerFactory.getLogger(ip.getMember().getDeclaringClass().getName());
 	}
 	
 	@Produces

@@ -1,19 +1,20 @@
 package org.microprofile.microservice.executor;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.json.JsonReaderFactory;
 import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
 import org.microprofile.microservice.MicroService;
 import org.microprofile.microservice.annotations.ServiceDescriptor;
 import org.microprofile.microservice.context.RequestContext;
+import org.microprofile.microservice.data.RequestData;
+import org.microprofile.microservice.data.ResponseData;
 import org.slf4j.Logger;
 
 public class ServiceExecutor {
@@ -26,17 +27,18 @@ public class ServiceExecutor {
 	
 	@Context HttpServletRequest request;
 
-	private MicroService<?, ?> service;
+	@Inject
+	private MicroService<? extends RequestData, ? extends ResponseData> service;
 
 	public void setService(MicroService<?,?> service) {
 		this.service=service;
 	}
 
-	public RequestContext<?> execute(JsonObject payload) {
+	public RequestContext execute(JsonObject payload) {
 		
 		String serviceName = service.getClass().getAnnotation(ServiceDescriptor.class).name();
 		
-		RequestContext<?> context=null;
+		RequestContext context=null;
 
 		// can be null if a get request
 		if(Objects.nonNull(payload) && Objects.nonNull(payload.get("orchestrator"))) { 
@@ -45,8 +47,15 @@ public class ServiceExecutor {
 
 		// make this service as orchestrator
 		if(Objects.isNull(context)) {
-			context=new RequestContext<>(serviceName);
-			context.setPayload(jsonb.fromJson(payload.toString(), service.getRequestType()));
+			context=new RequestContext(serviceName);
+			
+			try {
+				context.setPayload(jsonb.fromJson(payload.toString(), service.requestDataInstance().getClass()));
+			} catch (JsonbException | InstantiationException | IllegalAccessException e) {
+				throw new RuntimeException(e);
+			} catch(RuntimeException re) {
+				// trigger compensate
+			}
 		}
 
 		Object response = service.service(context);
@@ -57,8 +66,7 @@ public class ServiceExecutor {
 		if(Objects.nonNull(context.getNext())) {
 			// call next service		
 		}
-		
-		
+
 		logger.info("Next service to call - {}", context.getNext());
 		
 		return context;
