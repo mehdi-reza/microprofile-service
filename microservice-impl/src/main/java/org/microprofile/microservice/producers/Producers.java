@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
@@ -20,6 +21,8 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Producers {
 
@@ -40,6 +43,11 @@ public class Producers {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	@Produces
+	Logger logger(InjectionPoint ip) {
+		return LoggerFactory.getLogger(ip.getMember().getDeclaringClass().getName());
 	}
 	
 	@Produces

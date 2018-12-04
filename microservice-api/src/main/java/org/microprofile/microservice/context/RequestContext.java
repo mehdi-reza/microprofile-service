@@ -3,7 +3,6 @@ package org.microprofile.microservice.context;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbTransient;
 
 public final class RequestContext {
@@ -21,7 +20,7 @@ public final class RequestContext {
 	private int call = -1;
 	
 	@JsonbTransient
-	private JsonObject payload;
+	private Object payload;
 	
 	private boolean hasNext = false;
 	
@@ -45,10 +44,6 @@ public final class RequestContext {
 	public List<String> getServiceCalls() {
 		return serviceCalls;
 	}
-	
-	/*public void setServiceCalls(List<String> serviceCalls) {
-		this.serviceCalls = serviceCalls;
-	}*/
 
 	public String getNext() {
 		try {
@@ -66,11 +61,11 @@ public final class RequestContext {
 		this.orchestrator = orchestrator;
 	}
 	
-	public JsonObject getPayload() {
+	public Object getPayload() {
 		return payload;
 	}
 	
-	public void setPayload(JsonObject payload) {
+	public void setPayload(Object payload) {
 		this.payload = payload;
 	}
 	
