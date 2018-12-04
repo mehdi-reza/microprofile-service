@@ -55,5 +55,10 @@
 			<artifactId>microservice-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.microprofile.rest.client</groupId>
+			<artifactId>microprofile-rest-client-api</artifactId>
+			<scope>provided</scope>
+		</dependency>		
 	</dependencies>
 </project>
